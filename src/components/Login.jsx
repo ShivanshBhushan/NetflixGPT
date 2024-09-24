@@ -2,6 +2,9 @@ import React, { useRef, useState } from 'react'
 import Header from './Header'
 import background from '../assets/Login/login_bg.jpg'
 import { signInValidation } from '../utils/validate'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebase';
+
 
 const Login = () => {
 
@@ -12,9 +15,45 @@ const Login = () => {
     const[errorMessage, setErrorMessage] = useState(null);
 
     const handleSignIn = ()=>{
-        const message = signInValidation(email.current.value, password.current.value, name.current.value)
-        //console.log(email.current.value, password.current.value);
-        setErrorMessage(message);
+        const message = signInValidation(email.current.value, password.current.value)
+        if(message === null){
+            //create user
+            if(!signInForm){
+                //sign up logic
+                createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
+                    console.log(user);
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode+": "+errorMessage);
+                });
+            }
+            else{
+                //sign in logic
+                signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+                .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                alert("Logged in");
+                // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode+": "+errorMessage);
+                });
+            }
+
+        }
+        else{
+            setErrorMessage(message);
+        }
     }
 
     const [signInForm, setSignInForm] = useState(true);
@@ -31,7 +70,7 @@ const Login = () => {
         </div>
         <div className='flex'>
             <form onSubmit={(e)=>{e.preventDefault()}}
-            className='mx-auto mt-[25vh] mb-0  flex flex-col items-start bg-black bg-opacity-75 w-4/12 text-white rounded-lg bg-transparent'>
+            className='mx-auto mt-[25vh] mb-0  flex flex-col items-start bg-black bg-opacity-80 w-4/12 text-white rounded-lg'>
                 <h1 className='mx-12  mb-4 mt-8 font-bold text-3xl'>{signInForm? 'Sign In': 'Sign Up'}</h1>
                 {!signInForm && <input type='text' placeholder='Name' ref={name}
                 className='p-4 mx-12 my-4 w-[70%]  bg-gray-600 bg-opacity-75 border border-gray-800 rounded-sm'></input>}

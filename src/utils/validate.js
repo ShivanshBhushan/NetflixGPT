@@ -1,4 +1,4 @@
-export const signInValidation = (email, password, name) =>{
+export const signInValidation = (email, password) =>{
     
     const isEmailValid = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/.test(email);
     const isPasswordValid = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(password);
@@ -10,10 +10,7 @@ export const signInValidation = (email, password, name) =>{
     if(!isPasswordValid){
         return "Password not valid"
     }
-    
-    if(!name){
-        return "Name field cannot be empty"
-    }
+
 
     return null;
 } 
