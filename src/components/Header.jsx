@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Logo from '../assets/Login/Netflix_Logo_PMS.png'
-import { signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeUser } from '../utils/userSlice';
+import { addUser, removeUser } from '../utils/userSlice';
 
 const Header = () => {
 
@@ -12,6 +12,21 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const {uid, displayName, email} = user;
+        dispatch(addUser({uid,email,displayName}));
+        navigate("/browse");
+      } else {
+        // User is signed out
+        // ...
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+  },[])
 
   const handleSignOut = ()=>{
     signOut(auth).then(() => {
