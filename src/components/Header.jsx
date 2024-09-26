@@ -14,18 +14,17 @@ const Header = () => {
   const user = useSelector(store => store.user);
 
   useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const {uid, displayName, email} = user;
         dispatch(addUser({uid,email,displayName}));
         navigate("/browse");
       } else {
-        // User is signed out
-        // ...
         dispatch(removeUser());
         navigate("/");
-      }
+              }
     });
+    return ()=> unsubscribe();
   },[])
 
   const handleSignOut = ()=>{

@@ -1,10 +1,20 @@
-import React from 'react'
+import useNowPlayingMovies from '../hooks/useNowPlayingMovies'
 import Header from './Header'
 
+
+
 const Browse = () => {
+
+  useNowPlayingMovies();
+
+  //..................................... JSX Code below .................................
+
   return (
     <div>
-      <Header></Header>
+      <Header/>
+
+      
+
     </div>
   )
 }
