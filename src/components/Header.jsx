@@ -40,7 +40,7 @@ const Header = () => {
   }
 
   return (
-    <div className='absolute px-8 py-2 bg-gradient-to-b from-black w-[100%] flex justify-between'>
+    <div className='absolute px-8 py-2 bg-gradient-to-b from-black w-[100%] flex justify-between z-20'>
         <img src={Logo} alt='Netflix Logo' className='w-48 h-20'></img>
         {user && <button className='text-white text-xl font-semibold'
         onClick={handleSignOut}

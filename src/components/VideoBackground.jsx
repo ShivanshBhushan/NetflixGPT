@@ -11,11 +11,11 @@ const VideoBackground = ({movieId}) => {
   //..............................JSX BEGINS..................................................
 
   return (
-    <div> 
-        <iframe width="560" height="315" src={"https://www.youtube.com/embed/"+trailerData?.key+"?si=L2c4lLvE_jgGr65u&amp;controls=0&amp;start=3"}
-        title="YouTube video player" frameborder="0" 
+    <div className='w-screen aspect-video -z-10'> 
+        <iframe className='w-screen aspect-video' src={"https://www.youtube.com/embed/"+trailerData?.key+"?si=L2c4lLvE_jgGr65u&amp;controls=0&amp;start=3"+"?&autoplay=1&mute=1&showinfo=0&loop=1"}
+        title="YouTube video player" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
         </iframe>
     </div>
   )
